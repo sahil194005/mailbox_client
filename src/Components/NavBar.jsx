@@ -1,24 +1,33 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon,  XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { NavLink } from 'react-router-dom'
-const navigation = [
-  { name: 'Home', href: '/home', current: true },
-  { name: 'Products', href: '/products', current: false },
-  { name: 'About Us', href: '/aboutUs', current: false },
-]
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { globalActions } from './Store/globalSlice'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function Example() {
- 
+  const dispatch = useDispatch();
+  const isAuth = useSelector((state) => state.global.isAuth);
+  let navigation = [
+    { name: 'About Us', href: '/aboutUs', current: false }
+  ]
+
+  if (isAuth) {
+    navigation = [...navigation, { name: 'Home', href: '/home', current: true },
+    { name: 'Inbox', href: '/inbox', current: false },
+    { name: 'Compose', href: '/compose', current: false },]
+  }
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+          <div id='divi' className=" heightDiv123 mx-auto  px-2 sm:px-6 lg:px-8 md:p-4">
             <div className="relative flex h-16 items-center justify-between">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
@@ -33,7 +42,7 @@ export default function Example() {
                 </Disclosure.Button>
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-               
+
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
@@ -42,7 +51,7 @@ export default function Example() {
                         to={item.href}
                         className={classNames(
                           item.active ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white ',
-                          'rounded-md px-3 py-2 text-xl font-medium '
+                          'rounded-md px-3 py-2 text-xl font-medium md:text-2xl '
                         )}
                         aria-current={item.active ? 'page' : undefined}
                       >
@@ -53,14 +62,14 @@ export default function Example() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-             
-                <Menu as="div" className="relative ml-3">
+
+                {isAuth && <Menu as="div" className="relative ml-3">
                   <div>
                     <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
                       <img
-                        className="h-8 w-8 rounded-full"
+                        className="h-10 w-10 rounded-full"
                         src="https://media.istockphoto.com/id/1327592506/vector/default-avatar-photo-placeholder-icon-grey-profile-picture-business-man.jpg?s=1024x1024&w=is&k=20&c=er-yFBCv5wYO_curZ-MILgW0ECSjt0DDg5OlwpsAgZM="
                         alt=""
                       />
@@ -98,7 +107,11 @@ export default function Example() {
                       </Menu.Item> */}
                       <Menu.Item>
                         {({ active }) => (
-                          <NavLink onClick={(e) => { localStorage.clear()}}
+                          <NavLink onClick={(e) => {
+                            localStorage.clear();
+
+                            dispatch(globalActions.toggleAuth());
+                          }}
                             to="/"
                             className={classNames(active ? '' : '', ' bg-gray-100 block px-4 py-2 text-sm text-gray-700')}
                           >
@@ -108,7 +121,7 @@ export default function Example() {
                       </Menu.Item>
                     </Menu.Items>
                   </Transition>
-                </Menu>
+                </Menu>}
               </div>
             </div>
           </div>

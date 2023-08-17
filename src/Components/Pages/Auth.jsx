@@ -2,9 +2,12 @@ import React, { useRef, useState } from "react";
 import { Alert } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { globalActions } from '../Store/globalSlice';
+import { useDispatch } from "react-redux";
 
 const Auth = () => {
+  localStorage.clear();
+  const dispatch = useDispatch();
   const [login, setLogin] = useState(false)
   const [sendingReq, setSendingReq] = useState(false);
   const [openalert, setOpenAlert] = useState(false);
@@ -26,11 +29,12 @@ const Auth = () => {
         response = await axios.post(`http://localhost:3010/users/signup`, obj);
           setLogin(true);
       }
-      console.log('Auth api being called')
       setSendingReq(false);
       setAlertSeverity('success');
       setAlertMsg(response.data.msg);
       localStorage.setItem('token', JSON.stringify(response.data.token));
+      dispatch(globalActions.toggleAuth());
+      localStorage.setItem('isLogin', true);
       if(login) navigate('/home')
     } catch (error) {
       console.log(error);
