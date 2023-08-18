@@ -22,6 +22,7 @@ export default function Example() {
   if (isAuth) {
     navigation = [...navigation, { name: 'Home', href: '/home', current: true },
     { name: 'Inbox', href: '/inbox', current: false },
+    { name: 'Sent', href: '/sentMails', current: false },
     { name: 'Compose', href: '/compose', current: false },]
   }
 
@@ -55,7 +56,7 @@ export default function Example() {
                           rounded-md px-3 py-2 text-xl font-medium md:text-2xl '
                       >
                         {item.name}
-                        {item.name == 'Inbox'&&unread>0 ? <span className='m-1 text-sm bg-red-800 rounded-[100%] border-2 border-white p-1'>0{unread }</span>:<span></span>}  
+                        {item.name === 'Inbox'&&unread>0 ? <span className='m-1 text-sm bg-red-800 rounded-[100%] border-2 border-white p-1'>0{unread }</span>:<span></span>}  
                       </NavLink>
                     ))}
                   </div>
