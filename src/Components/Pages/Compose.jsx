@@ -16,10 +16,10 @@ const Compose = () => {
       const contentPlainText = contentState.getPlainText();
       setEditorState(EditorState.createEmpty());
       const obj = {
-        receiver: receiverRef.current.value,
+        // receiver: receiverRef.current.value,
         body: contentPlainText,
         subject:subjectRef.current.value,
-        // receiver: 'sahilkumar2275@gmail.com',
+        receiver: 'sahilkumar2275@gmail.com',
         // subject: 'quitting application',
         // body: 'Loream Ipsum',
         opened:false

@@ -30,6 +30,12 @@ const globalSlice = createSlice({
         },
         updateUnread(state,action) {
             return {...state,unread:action.payload}
+        },
+        deleteMail(state, action) {
+            let newMails = state.receivedMails.filter((mail) => {
+                return mail._id!==action.payload
+            })
+            return {...state,receivedMails:newMails}
         }
         
     }
