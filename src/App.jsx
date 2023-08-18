@@ -8,6 +8,7 @@ import Compose from "./Components/Pages/Compose";
 import Inbox from "./Components/Pages//Inbox/Inbox";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SingleEmail from "./Components/Pages/SingleEmail";
 
 import React from "react";
 
@@ -21,7 +22,9 @@ function App() {
 			<Route path="/aboutUs" element={<AboutUs />} />
 			<Route path="/compose" element={<Compose />} />
 			<Route path = "/inbox" element={<Inbox/>}/>
+			<Route path = "/:id" element = {<SingleEmail/>}/>
 			<Route path="*" element={<NoMatch />} />
+
 		</Routes>
 
 	</React.Fragment>

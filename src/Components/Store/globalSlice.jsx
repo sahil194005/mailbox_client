@@ -5,13 +5,15 @@ if (localStorage.getItem('isLogin')) {
 
     intiState = {
         isAuth: localStorage.getItem('isLogin'),
-        receivedMails: []
+        receivedMails: [],
+        unread:0
     }
 }
 else {
     intiState = {
         isAuth: false,
-        receivedMails: []
+        receivedMails: [],
+        unread:0
     }
 }
 const globalSlice = createSlice({
@@ -25,9 +27,11 @@ const globalSlice = createSlice({
         InboxFill(state, action) {
 
             return { ...state, receivedMails: action.payload };
-
-
+        },
+        updateUnread(state,action) {
+            return {...state,unread:action.payload}
         }
+        
     }
 
 })

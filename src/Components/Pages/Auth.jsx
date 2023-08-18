@@ -24,6 +24,7 @@ const Auth = () => {
       let response;
       if (login) {
         response = await axios.post(`http://localhost:3010/users/login`, obj);
+        localStorage.setItem('userEmail', obj.email);
       }
       else {
         response = await axios.post(`http://localhost:3010/users/signup`, obj);
@@ -35,7 +36,7 @@ const Auth = () => {
       localStorage.setItem('token', JSON.stringify(response.data.token));
       dispatch(globalActions.toggleAuth());
       localStorage.setItem('isLogin', true);
-      if(login) navigate('/home')
+      if(login) navigate('/inbox')
     } catch (error) {
       console.log(error);
       setAlertSeverity('error');
@@ -53,10 +54,10 @@ const Auth = () => {
   const formSubmitHandler = async (e) => {
     e.preventDefault();
     let Obj = {
-      // email: emailRef.current.value,
-      // password: passwordRef.current.value
-      email: 'sahilkumar2275@gmail.com',
-      password:'Sahil'
+      email: emailRef.current.value,
+      password: passwordRef.current.value
+      // email: 'sahilkumar2275@gmail.com',
+      // password:'Sahil'
     }
     passwordRef.current.value = emailRef.current.value = "";
     login ? AuthHandler(Obj) : AuthHandler(Obj)

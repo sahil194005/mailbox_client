@@ -13,6 +13,8 @@ function classNames(...classes) {
 export default function Example() {
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.global.isAuth);
+  const unread = useSelector((state) => state.global.unread);
+ 
   let navigation = [
     { name: 'About Us', href: '/aboutUs', current: false }
   ]
@@ -49,13 +51,11 @@ export default function Example() {
                       <NavLink
                         key={item.name}
                         to={item.href}
-                        className={classNames(
-                          item.active ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white ',
-                          'rounded-md px-3 py-2 text-xl font-medium md:text-2xl '
-                        )}
-                        aria-current={item.active ? 'page' : undefined}
+                        className='text-gray-300 hover:bg-gray-700 hover:text-white 
+                          rounded-md px-3 py-2 text-xl font-medium md:text-2xl '
                       >
                         {item.name}
+                        {item.name == 'Inbox'&&unread>0 ? <span className='m-1 text-sm bg-red-800 rounded-[100%] border-2 border-white p-1'>0{unread }</span>:<span></span>}  
                       </NavLink>
                     ))}
                   </div>

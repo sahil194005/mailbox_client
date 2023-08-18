@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react'
 import { Editor } from 'react-draft-wysiwyg'
-import { EditorState, convertFromRaw } from 'draft-js';
+import { EditorState } from 'draft-js';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 const Compose = () => {
@@ -16,17 +16,18 @@ const Compose = () => {
       const contentPlainText = contentState.getPlainText();
       setEditorState(EditorState.createEmpty());
       const obj = {
-        // receiver: receiverRef.current.value,
-        // body: contentPlainText,
-        // subject:subjectRef.current.value
-        receiver: 'sahilkumar2275@gmail.com',
-        subject: 'quitting application',
-        body: 'Loream Ipsum'
+        receiver: receiverRef.current.value,
+        body: contentPlainText,
+        subject:subjectRef.current.value,
+        // receiver: 'sahilkumar2275@gmail.com',
+        // subject: 'quitting application',
+        // body: 'Loream Ipsum',
+        opened:false
       }
       receiverRef.current.value = subjectRef.current.value = '';
       const token = JSON.parse(localStorage.getItem('token'));
       const response = await axios.post('http://localhost:3010/email/send', obj, { headers: { "Authorization": token } });
-      console.log(response);
+     
       toast.success(response.data.msg);
     } catch (error) {
       console.log(error);
@@ -34,13 +35,14 @@ const Compose = () => {
 
     }
   }
+  const userEmail = localStorage.getItem('userEmail');
 
   return (<div>
 
     <form onSubmit={mailSubmitHandler} className='  min-h-[800px] max-w-[600px] mx-auto border border-gray-300 rounded-md flex flex-col justify-evenly text-gray-500  md:text-2xl px-3'>
       <div className='flex justify-between '>
         <label htmlFor="">From :</label>
-        <label className='bg-white px-3' >sahilkumar2275@gmail.com</label>
+        <label className='bg-white px-3' >{ userEmail}</label>
       </div>
       <div className='flex justify-between'>
         <label htmlFor="">To :</label>
