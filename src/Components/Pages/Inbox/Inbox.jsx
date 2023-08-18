@@ -28,7 +28,13 @@ const Inbox = () => {
         toast.error('couldnt fetch mails')
       }
     }
-    getAllMails()
+    const interval = setInterval(() => {
+      getAllMails();
+    }, 3000)
+    return () => {
+      clearInterval(interval);
+    }
+   
   }, [])
   let id;
   const MailDeleteHandler = async (e) => {
